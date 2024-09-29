@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: @application.name@
+  config:
+    import: classpath:rpc.yml,classpath:cache.yml
+
+server:
+  port: 8084
+
+#dubbo:
+#  # 关闭启动时检查
+#  consumer:
+#    check: false
+#  application:
+#    name: nft-turbo-trade

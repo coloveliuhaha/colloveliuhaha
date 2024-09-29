@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: @application.name@
+  config:
+    import: classpath:datasource.yml,classpath:rpc.yml,classpath:cache.yml,classpath:stream.yml,classpath:es.yml,classpath:seata.yml
+  cloud:
+    function:
+      definition: chain;orderClose;heldCollection
+    stream:
+      rocketmq:
+        bindings:
+          chain-in-0:
+            consumer:
+              subscription:
+                expression: 'COLLECTION_MINT || COLLECTION_CHAIN'
+      bindings:
+        chain-in-0:
+          content-type: application/json
+          destination: chain-result-topic
+          group: chain-group
+          binder: rocketmq
+        orderClose-in-0:
+          content-type: application/json
+          destination: order-close-topic
+          group: order-group
+          binder: rocketmq
+        heldCollection-out-0:
+          content-type: application/json
+          destination: held-collection-result-topic
+          group: held-collection-group
+          binder: rocketmq
+server:
+  port: 8086
+
+
+
